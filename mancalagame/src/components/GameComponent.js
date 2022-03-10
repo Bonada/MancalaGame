@@ -29,7 +29,7 @@ let width = window.innerWidth;
 
 let items = []
 // create two boxes and a ground
-for(let i = 0; i < 14; i++){
+for(let i = 0; i < 21; i++){
 
     let wallx = (width / 4) + (i % 7 * (width/12));
     let wally = i < 7 ? height / 3 : 2 * (height / 3);
