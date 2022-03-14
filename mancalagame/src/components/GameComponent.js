@@ -39,6 +39,7 @@ for(let i = 0; i < 14; i++){
     var circle3 = Bodies.circle(wallx + 20, wally + 20, 20);
     var circle4= Bodies.circle(wallx + 40, wally + 40, 20);
     var wall = Bodies.rectangle(wallx, wally, 10, 300, { isStatic: true });
+    
     if(i == 6 || i == 13){
         items.push(wall);
         continue;

@@ -19,6 +19,7 @@ if (typeof id !== 'undefined'){
 function App() {
   const [gameid, setGameId] = useState();
   const [startgame, setStartGame] = useState(gameactive);
+  console.log(gameactive);
 
   useEffect(() => {
     socket.on('recvgame', message => {
@@ -40,7 +41,6 @@ function App() {
     <div className="App">
       <header className="App-header">
       {startgame ? <GameComponent/> : <p>Your game URL is: https://mancala.quest?id={gameid}</p>}
-         
       </header>
     </div>
   );
