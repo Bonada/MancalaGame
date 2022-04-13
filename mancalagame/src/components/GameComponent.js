@@ -4,6 +4,8 @@ const Matter = require('matter-js')
 
 console.log(window.innerWidth, window.innerHeight);
 
+
+
 var Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
@@ -19,26 +21,28 @@ var render = Render.create({
     engine: engine,
     options: {
         wireframes: false,
-        width: window.innerWidth,
-        height: window.innerHeight - 5
+        width: 1200,
+        height: 800,
     }
 });
 
-let height = window.innerHeight - 5 - 999;
-let width = window.innerWidth;
+
+
+let height = 800;
+let width = 1200;
 
 let items = []
 // create two boxes and a ground
 for(let i = 0; i < 14; i++){
 
-    let wallx = (width / 4) + (i % 7 * (width/12));
-    let wally = i < 7 ? height / 3 : 2 * (height / 3);
+    let wallx = 300 + (i % 7 * 100);
+    let wally = i < 7 ? height / 2 + 150 : height / 2 - 150 ;
 
-    var circle1 = Bodies.circle(wallx + 20, wally, 20);
-    var circle2 = Bodies.circle(wallx + 40, wally, 20);
-    var circle3 = Bodies.circle(wallx + 20, wally + 20, 20);
-    var circle4= Bodies.circle(wallx + 40, wally + 40, 20);
-    var wall = Bodies.rectangle(wallx, wally, 10, 300, { isStatic: true });
+    var circle1 = Bodies.circle(wallx + 20, wally, 10);
+    var circle2 = Bodies.circle(wallx + 40, wally, 10);
+    var circle3 = Bodies.circle(wallx + 20, wally + 20, 10);
+    var circle4= Bodies.circle(wallx + 40, wally + 40, 10);
+    var wall = Bodies.rectangle(wallx, wally, 10, 200, { isStatic: true });
     
     if(i == 6 || i == 13){
         items.push(wall);
@@ -47,8 +51,8 @@ for(let i = 0; i < 14; i++){
     items.push(circle1, circle2, circle3, circle4, wall);
 }
 
-var ground1 = Bodies.rectangle( width / 2, height / 2, width / 2 + 10, 10, { isStatic: true });
-var ground2 = Bodies.rectangle( width / 2, height / 2 + 314, width / 2 + 10, 10, { isStatic: true });
+var ground1 = Bodies.rectangle( 600, 355, width / 2 + 10, 10, { isStatic: true });
+var ground2 = Bodies.rectangle( 600, 655, width / 2 + 10, 10, { isStatic: true });
 
 var bankwall1 = Bodies.rectangle( width / 8 - 100, height / 2, 10, height / 2, { isStatic: true });
 var bankwall2 = Bodies.rectangle( width / 8 + 100, height / 2, 10, height / 2, { isStatic: true });
@@ -69,6 +73,8 @@ var runner = Runner.create();
 
 // run the engine
 Runner.run(runner, engine);
+
+
 
 function GameComponent(){
     
