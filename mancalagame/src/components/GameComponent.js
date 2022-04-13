@@ -24,7 +24,7 @@ var render = Render.create({
     }
 });
 
-let height = window.innerHeight - 5;
+let height = window.innerHeight - 5 - 999;
 let width = window.innerWidth;
 
 let items = []
