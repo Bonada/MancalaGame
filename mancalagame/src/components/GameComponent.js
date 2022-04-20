@@ -2,18 +2,17 @@ import React, { useState, useEffect} from 'react';
 
 const Matter = require('matter-js')
 
-console.log(window.innerWidth, window.innerHeight);
-
-
-
 var Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
-    Composite = Matter.Composite;
+    Composite = Matter.Composite,
+    MouseConstraint = Matter.MouseConstraint,
+    Mouse = Matter.Mouse;
 
 // create an engine
 var engine = Engine.create();
+var world = engine.world;
 
 // create a renderer
 var render = Render.create({
@@ -62,6 +61,23 @@ var bankwall5 = Bodies.rectangle( 7 * width / 8 + 100, height / 2, 10, height / 
 var bankwall6 = Bodies.rectangle( 7 * width / 8, 3 * height / 4 + 5, 210, 10, { isStatic: true });
 items.push(ground1, ground2, bankwall1, bankwall2, bankwall3, bankwall4, bankwall5, bankwall6);
 
+    // add mouse control
+    var mouse = Mouse.create(render.canvas),
+        mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+
+    Composite.add(world, mouseConstraint);
+
+    // keep the mouse in sync with rendering
+    render.mouse = mouse;
+
 // add all of the bodies to the world
 Composite.add(engine.world, items);
 
@@ -74,11 +90,47 @@ var runner = Runner.create();
 // run the engine
 Runner.run(runner, engine);
 
+let mouseX = 0,
+    mouseY = 0;
 
+  let canvas = document.getElementsByTagName("canvas")[0];
+    let context = canvas.getContext("2d");
+    
+    context.beginPath();
+    context.rect(0,0,100,100);
+    context.fill();
+
+    window.onmousemove = function (e)
+    {
+    
+        // This gets the mouse coordinates (relative to the canvas). It uses the RGraph.getMouseXY(event)
+        // function
+        var rect = canvas.getBoundingClientRect();
+        mouseX  = e.clientX - rect.left;
+        mouseY  = e.clientY - rect.top;
+    }
 
 function GameComponent(){
     
+    // let canvas = document.getElementsByTagName("canvas")[0];
+    // let context = canvas.getContext("2d");
+    
+    // context.beginPath();
+    // context.rect(0,0,100,100);
+    // context.fill();
 
+    // var rect = canvas.getBoundingClientRect();
+    // console.log(rect);
+
+    // window.onmousemove = function (e)
+    // {
+    
+    //     // This gets the mouse coordinates (relative to the canvas). It uses the RGraph.getMouseXY(event)
+    //     // function
+    //     var mouseX  = e.clientX - rect.left;
+    //     var mouseY  = e.clientY - rect.top;
+    //     console.log(mouseX, mouseY);
+    // }
     
 
     

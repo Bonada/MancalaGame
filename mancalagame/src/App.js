@@ -15,7 +15,6 @@ if (typeof id !== 'undefined'){
   socket.emit('reqgame', id);
 }
 
-
 function App() {
   const [gameid, setGameId] = useState();
   const [startgame, setStartGame] = useState(gameactive);
@@ -35,6 +34,7 @@ function App() {
       })
 
   }, [socket])
+  
   
 
   return (
