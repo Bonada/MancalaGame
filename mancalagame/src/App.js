@@ -14,6 +14,7 @@ let player = 0;
 if (typeof id !== 'undefined'){
   gameactive = true;
   player = 2;
+  console.log(id);
   socket.emit('reqgame', id);
 }
 else {
@@ -33,8 +34,11 @@ function App() {
     socket.on('connect', () => {
       if (typeof id !== 'undefined'){
         setGameId(id);
+        socket.emit('join-game', id.substring(0,10));
         return;
       }
+      console.log(socket.id);
+      socket.emit('join-game', socket.id.substring(0,10));
       setGameId(socket.id);
       })
 
@@ -45,7 +49,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      {startgame ? (<GameComponent socket={socket} player={player}/>) : (<p>Your game URL is: https://mancala.quest/?id={gameid}</p>)}
+      {startgame ? (<GameComponent socket={socket} player={player}/>) : (<p>Your game URL is: localhost:3000/?id={gameid}</p>)}
       </header>
     </div>
   );
