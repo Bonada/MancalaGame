@@ -167,10 +167,10 @@ function GameComponent(props){
         let spawnpoint = (left+right) / 2;
         let spawnheight = 100;
         if(player == 1){
-            spawnheight = 420;
+            spawnheight = 400;
         }
         
-        for(let i = 0 ; i < ballsamt; i++){
+        for(let i = 1 ; i <= ballsamt; i++){
 
             if(spawnpoint > 950){
                 spawnpoint = 950;
@@ -188,11 +188,66 @@ function GameComponent(props){
                 spawnpoint += offset * .5;
             }
 
-            var circle1 = Bodies.circle(spawnpoint, spawnheight, 10);
-            // console.log(spawnpoint, spawnheight);
-            World.add(engine.current.world, circle1);
+            let capture = true;
+            let p1balls = [];
+            let p2balls = [];
+            if( i == ballsamt && spawnpoint < 900 && spawnpoint > 300){
+                let checkstart = Math.round(spawnpoint/100) * 100 - 100;
+                let checkend = checkstart + 100;
+                console.log(checkstart, checkend);
 
-            
+                let bodies = engine.current.world.bodies;
+                
+                for(let i = 0; i < bodies.length; i++){
+                    let body = bodies[i];
+                    let xpos = body.position.x;
+                    let ypos = body.position.y;
+                    // console.log(body);
+                    if(body.label == "Circle Body" && xpos > checkstart && xpos < checkend && ypos > 400){
+                        console.log("p1ball");
+                        p1balls.push(body);
+                    }
+                    if(body.label == "Circle Body" && xpos > checkstart && xpos < checkend && ypos < 400){
+                        console.log("p2ball");
+                        p2balls.push(body);
+                    }
+                    if(player == 1 && p1balls.length > 0 || player == 2 && p2balls.length > 0){
+                        capture = false;
+                        break;
+                    }
+                }
+            }
+
+            console.log(p1balls.length, p2balls.length);
+            if(capture && player == 1 && p2balls.length > 0){
+                await new Promise(resolve => setTimeout(resolve, 400));
+                console.log("p1capture");
+                for(let i = 0 ; i <= p2balls.length ; i++){
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    if(i < p2balls.length)World.remove(engine.current.world, p2balls[i]);
+                    let circle1 = Bodies.circle(1050, 200, 10);
+                    console.log(spawnpoint, spawnheight);
+                    World.add(engine.current.world, circle1);
+                }
+                continue;
+            }
+            if(capture && player == 2 && capture && p1balls.length > 0){
+                await new Promise(resolve => setTimeout(resolve, 400));
+                console.log("p2capture");
+                var circle1 = null;
+                for(let i = 0 ; i <= p1balls.length ; i++){
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    if(i < p1balls.length) World.remove(engine.current.world, p1balls[i]);
+                    let circle1 = Bodies.circle(150, 200, 10);
+                    console.log(spawnpoint, spawnheight);
+                    World.add(engine.current.world, circle1);
+                }
+                continue;
+            }
+
+            var circle1 = Bodies.circle(spawnpoint, spawnheight, 10);
+            console.log(spawnpoint, spawnheight);
+            World.add(engine.current.world, circle1);
             
             await new Promise(resolve => setTimeout(resolve, 400));
         }

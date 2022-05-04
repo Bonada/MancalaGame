@@ -49,7 +49,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      {startgame ? (<GameComponent socket={socket} player={player}/>) : (<p>Your game URL is: localhost:3000/?id={gameid}</p>)}
+      {startgame ? (<GameComponent socket={socket} player={player}/>) : (<div><button onClick={() =>  navigator.clipboard.writeText("mancala.quest/?id=" + gameid)}>Copy Link</button> <p id="gamelink">Your game URL is: mancala.quest/?id={gameid}</p></div>)}
       </header>
     </div>
   );
